@@ -34,6 +34,9 @@ Route::middleware(['auth:sanctum', 'role:Administrator'])->group(function () {
     Route::put('/users/{id}', [UserController::class, 'update']);
     Route::delete('/users/{id}', [UserController::class, 'destroy']);
     Route::delete('/knowledge/{id}', [KnowledgeController::class, 'destroy']);
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/reports/download', [KnowledgeController::class, 'exportPdf']);
+    });
     Route::post('/system/health-check', [\App\Http\Controllers\Api\HealthController::class, 'check']);
     Route::get('/system/login-logs', [\App\Http\Controllers\Api\HealthController::class, 'loginLogs']);
     // View the logs (for Admin Dashboard)

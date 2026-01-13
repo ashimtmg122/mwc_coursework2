@@ -9,6 +9,7 @@ use App\Models\MetadataTag;
 use App\Models\Notification;
 use App\Models\User;
 use App\Notifications\NewKnowledgeAdded;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -304,6 +305,24 @@ class KnowledgeController extends Controller
                 'error' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function exportPdf()
+    {
+        // 1. Get the data you want in the report
+        // Example: Get all published articles with their authors
+        $items = KnowledgeItem::with('author')
+            ->where('status', 2) // Assuming 2 = Published
+            ->get();
+
+        // 2. Load the view and pass the data
+        // We will create 'resources/views/reports/knowledge_pdf.blade.php' next
+        $pdf = Pdf::loadView('knowledge', ['items' => $items]);
+
+        // 3. Download the file
+        // 'stream()' opens it in browser, 'download()' forces download.
+        // For API usage, 'download()' is usually better.
+        return $pdf->download('knowledge_report.pdf');
     }
 
     // Add this method for Deleting

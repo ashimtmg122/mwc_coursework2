@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Axios from "../api/Axios";
+import DownloadButton from "../components/DownloadButton";
 
 const KnowledgeFeed = () => {
     const [items, setItems] = useState([]);
@@ -108,7 +109,7 @@ const KnowledgeFeed = () => {
     return (
         <>
             {/* Header Section */}
-            <div className="row mb-5 align-items-center">
+            <div className="row mb-1 align-items-center">
                 {/* 1. Title (Takes up 5 columns) */}
                 <div className="col-md-5">
                     <h1 className="fw-bold text-pine mb-1">Knowledge Base</h1>
@@ -131,7 +132,7 @@ const KnowledgeFeed = () => {
 
                 {/* 3. Search Bar (Takes up 5 columns - Kept your existing code) */}
                 <div className="col-md-5">
-                    <form onSubmit={handleSearch} className="d-flex gap-2">
+                    <form onSubmit={handleSearch} className="d-flex ">
                         <input
                             type="text"
                             className="form-control search-input"
@@ -147,6 +148,10 @@ const KnowledgeFeed = () => {
                         </button>
                     </form>
                 </div>
+            </div>
+
+            <div className="col-md-2">
+                <DownloadButton />
             </div>
 
             {/* Loading State */}
