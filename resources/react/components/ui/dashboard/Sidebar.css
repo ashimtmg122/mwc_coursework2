@@ -1,0 +1,65 @@
+/* Sidebar.css */
+
+/* 1. Base Link Style (Transparent & Clean) */
+.list-group-item {
+    background-color: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.75); /* Soft White */
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth Physics */
+    position: relative;
+    overflow: hidden;
+}
+
+/* 2. Layout Helper for Icon + Text */
+.sidebar-link-content {
+    display: flex;
+    align-items: center;
+    gap: 14px; /* Space between icon and text */
+    padding-left: 1.5rem;
+}
+
+/* 3. Hover State: Glass Slide Effect */
+.hover-glass:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* 10% White */
+    color: #ffffff !important;
+    padding-left: 2rem !important; /* Slide Text Right */
+    backdrop-filter: blur(5px); /* Frosted Glass */
+}
+
+/* 4. Active State: The "Mint Tab" */
+.active-mint {
+    background-color: #E8F5E9; /* Mint Background */
+    color: #2D5A27 !important; /* Pine Green Text */
+    font-weight: 700;
+    
+    /* Physical Tab Shape */
+    border-radius: 12px 0 0 12px; 
+    margin-left: 16px; /* Detach from left edge */
+    padding-left: 1.5rem; /* Reset padding (don't slide like hover) */
+    
+    /* Shadow for depth */
+    box-shadow: -4px 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* 5. Section Headers (System, etc.) */
+.sidebar-section-header {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 600;
+    padding-left: 1.8rem;
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Optional: Icon sizing adjustment */
+.bi {
+    font-size: 1.1rem;
+    transition: transform 0.2s;
+}
+
+.active-mint .bi {
+    transform: scale(1.1); /* Slightly larger icon when active */
+}
