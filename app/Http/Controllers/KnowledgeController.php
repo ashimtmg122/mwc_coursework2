@@ -45,7 +45,7 @@ class KnowledgeController extends Controller
             
             Version::create([
                 'knowledge_item_id' => $knowledgeItem->id,
-                'version_number' => '0.1', // Start as Draft version
+                'version_number' => '0.1', 
             ]);
 
            
@@ -109,7 +109,7 @@ class KnowledgeController extends Controller
         $message = "";
 
         if ($request->status == 1) {
-            $recipients = User::where('id', '!=', $user->id) // Don't notify self
+            $recipients = User::where('id', '!=', $user->id) 
                 ->whereHas('role', function ($q) {
                     $q->whereIn('name', ['Administrator', 'Manager']);
                 })->pluck('id');
