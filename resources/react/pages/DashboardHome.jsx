@@ -8,7 +8,7 @@ import {
     PointElement,
     LineElement,
     BarElement,
-    ArcElement, // <--- Import ArcElement for Pie
+    ArcElement, 
     Title,
     Tooltip,
     Legend,
@@ -23,7 +23,7 @@ ChartJS.register(
     PointElement,
     LineElement,
     BarElement,
-    ArcElement, // <--- Register it
+    ArcElement, 
     Title,
     Tooltip,
     Legend
@@ -51,9 +51,9 @@ const DashboardHome = () => {
     if (loading)
         return <div className="p-5 text-center">Loading Dashboard...</div>;
 
-    // --- CHART CONFIGURATION ---
+  
 
-    // 1. Line Chart (Activity)
+    // Line Chart (Activity)
     const lineChartData = {
         labels:
             data?.charts?.line.map((item) =>
@@ -73,7 +73,7 @@ const DashboardHome = () => {
         ],
     };
 
-    // 2. Bar Chart (Categories)
+    //  Bar Chart (Categories)
     const barChartData = {
         labels: data?.charts?.bar.map((tag) => tag.label) || [],
         datasets: [
@@ -88,7 +88,7 @@ const DashboardHome = () => {
         ],
     };
 
-    // 3. Pie Chart (Status Distribution) - NEW!
+    //  Pie Chart (Status Distribution)
     const getStatusLabel = (s) => {
         if (s === 0) return "Drafts";
         if (s === 1) return "Pending Review";
@@ -103,9 +103,9 @@ const DashboardHome = () => {
             {
                 data: data?.charts?.pie.map((item) => item.count) || [],
                 backgroundColor: [
-                    "#6c757d", // Grey for Drafts (0)
-                    "#ffc107", // Yellow for Pending (1)
-                    "#198754", // Green for Published (2)
+                    "#6c757d", 
+                    "#ffc107", 
+                    "#198754", 
                 ],
                 borderWidth: 1,
             },
@@ -129,10 +129,9 @@ const DashboardHome = () => {
                 </p>
             </div>
 
-            {/* --- STAT CARDS (Keep existing logic here) --- */}
+          
             <div className="row g-4 mb-5">
-                {/* ... (Your 4 Stat Cards from previous code go here) ... */}
-                {/* Card 1: Total Knowledge */}
+                
                 <div className="col-md-3">
                     <div className="card border-0 shadow-sm p-3 h-100 rounded-4">
                         <div className="d-flex align-items-center gap-3">
@@ -151,7 +150,7 @@ const DashboardHome = () => {
                     </div>
                 </div>
 
-                {/* Card 2: My Drafts */}
+               
                 <div className="col-md-3">
                     <div className="card border-0 shadow-sm p-3 h-100 rounded-4 position-relative overflow-hidden">
                         <div className="d-flex align-items-center gap-3">
@@ -176,7 +175,7 @@ const DashboardHome = () => {
                     </div>
                 </div>
 
-                {/* Card 3: Pending */}
+              
                 <div className="col-md-3">
                     <div className="card border-0 shadow-sm p-3 h-100 rounded-4">
                         <div className="d-flex align-items-center gap-3">
@@ -202,7 +201,7 @@ const DashboardHome = () => {
                     </div>
                 </div>
 
-                {/* Card 4: Users */}
+              
                 <div className="col-md-3">
                     <div className="card border-0 shadow-sm p-3 h-100 rounded-4">
                         <div className="d-flex align-items-center gap-3">
@@ -222,9 +221,9 @@ const DashboardHome = () => {
                 </div>
             </div>
 
-            {/* --- CHARTS ROW --- */}
+         
             <div className="row g-4">
-                {/* Row 1: Line Chart (Full Width) */}
+                
                 <div className="col-12">
                     <div className="card border-0 shadow-sm p-4 rounded-4">
                         <h5 className="fw-bold text-pine mb-4">
@@ -242,7 +241,7 @@ const DashboardHome = () => {
                     </div>
                 </div>
 
-                {/* Row 2: Bar & Pie Charts */}
+               
                 <div className="col-lg-8">
                     <div className="card border-0 shadow-sm p-4 rounded-4 h-100">
                         <h5 className="fw-bold text-pine mb-4">

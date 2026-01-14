@@ -17,14 +17,14 @@ const App = () => {
                 pauseOnHover
                 theme="colored"
                 toastStyle={{
-                    background: "linear-gradient(135deg, #1F7A63, #6B8E85)", // pine → muted green
-                    color: "#F4F8F7", // soft white
+                    background: "linear-gradient(135deg, #1F7A63, #6B8E85)",
+                    color: "#F4F8F7", 
                     borderRadius: "12px",
                     boxShadow: "0 10px 25px rgba(31, 122, 99, 0.35)",
                     fontWeight: "500",
                 }}
                 progressStyle={{
-                    background: "linear-gradient(90deg, #B8A1D9, #D9C7F0)", // lavender tones
+                    background: "linear-gradient(90deg, #B8A1D9, #D9C7F0)",
                 }}
             />
 

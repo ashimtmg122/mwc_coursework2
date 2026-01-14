@@ -4,7 +4,7 @@ import Axios from "../api/Axios";
 import { useAuthStore } from "../store/useAuthStore";
 
 const LoginPage = () => {
-    // --- 1. FUNCTIONAL LOGIC (UNCHANGED) ---
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -32,7 +32,7 @@ const LoginPage = () => {
 
             const { user, token } = response.data;
             console.log("use", user, token);
-            localStorage.setItem("token", token); // Make sure this matches your auth check key
+            localStorage.setItem("token", token); 
             setUser(user);
             navigate("/dashboard");
         } catch (err) {
@@ -45,7 +45,7 @@ const LoginPage = () => {
         }
     };
 
-    // --- 2. NEW: QUICK FILL HELPER ---
+  
     const DEMO_USERS = [
         {
             role: "Administrator",
@@ -75,11 +75,11 @@ const LoginPage = () => {
 
     const fillCredentials = (u) => {
         setEmail(u);
-        setPassword("password"); // Default password from seeder
+        setPassword("password");
         setError("");
     };
 
-    // --- 3. UI RENDER ---
+   
     return (
         <>
             <style>
@@ -211,7 +211,7 @@ const LoginPage = () => {
                         </div>
                     </div>
 
-                    {/* RIGHT: Login Form */}
+                  
                     <div className="form-section">
                         <div className="mb-5">
                             <h2 className="fw-bold text-dark mb-2">
@@ -233,7 +233,7 @@ const LoginPage = () => {
                         )}
 
                         <form onSubmit={handleSubmit}>
-                            {/* Email */}
+                        
                             <div className="mb-4">
                                 <label className="form-label fw-bold text-secondary small text-uppercase">
                                     Email Address
@@ -254,7 +254,7 @@ const LoginPage = () => {
                                 </div>
                             </div>
 
-                            {/* Password */}
+                        
                             <div className="mb-5">
                                 <label className="form-label fw-bold text-secondary small text-uppercase">
                                     Password

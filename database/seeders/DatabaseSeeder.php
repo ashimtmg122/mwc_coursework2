@@ -10,12 +10,10 @@ class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
-    /**
-     * Seed the application's database.
-     */
+   
     public function run(): void
     {
-        // 1. Define the Roles your system needs
+        
         $roles = [
             'Administrator' => 'admin@admin.com',
             'Manager' => 'manager@admin.com',
@@ -24,15 +22,14 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($roles as $roleName => $email) {
-            // Create the Role if it doesn't exist
+           
             $role = \App\Models\Role::firstOrCreate(['name' => $roleName]);
 
-            // Create a User for this Role
             \App\Models\User::create([
                 'role_id' => $role->id,
                 'name' => $roleName . ' User',
                 'email' => $email,
-                'password' => bcrypt('password'), // Password is 'password' for everyone
+                'password' => bcrypt('password'), 
             ]);
         }
 

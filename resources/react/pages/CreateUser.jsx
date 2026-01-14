@@ -80,7 +80,7 @@ const CreateUser = () => {
 
             <div className="bg-white p-5 rounded-4 shadow-sm border">
                 <form onSubmit={handleSubmit}>
-                    {/* Name */}
+                 
                     <div className="mb-4">
                         <label className="form-label fw-bold">Full Name</label>
                         <input
@@ -100,7 +100,7 @@ const CreateUser = () => {
                         )}
                     </div>
 
-                    {/* Email */}
+                 
                     <div className="mb-4">
                         <label className="form-label fw-bold">
                             Email Address
@@ -122,7 +122,7 @@ const CreateUser = () => {
                         )}
                     </div>
 
-                    {/* Password */}
+                 
                     <div className="mb-4">
                         <label className="form-label fw-bold">Password</label>
                         <input
@@ -142,7 +142,7 @@ const CreateUser = () => {
                         )}
                     </div>
 
-                    {/* Role Dropdown */}
+                   
                     <div className="mb-4">
                         <label className="form-label fw-bold">
                             Assign Role

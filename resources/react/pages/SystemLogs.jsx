@@ -8,7 +8,7 @@ const SystemLogs = () => {
     const [loading, setLoading] = useState(true);
     const [checking, setChecking] = useState(false);
 
-    // Helper: UK Date Format (Day Month Year, Time)
+
     const formatDate = (dateString) => {
         if (!dateString) return "N/A";
         return new Date(dateString).toLocaleString("en-GB", {
@@ -36,8 +36,7 @@ const SystemLogs = () => {
             setLoginLogs(logs);
         } catch (error) {
             console.error("Failed to load logs", error);
-            // toast.error("Could not load system logs");
-            // Commented out to avoid spamming toast on mount if server is down
+            
         } finally {
             setLoading(false);
         }
@@ -82,7 +81,7 @@ const SystemLogs = () => {
 
     return (
         <div className="container-fluid py-4 px-lg-5">
-            {/* --- HEADER --- */}
+            
             <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5 gap-3">
                 <div>
                     <h2 className="fw-bold text-dark mb-1">
@@ -106,7 +105,6 @@ const SystemLogs = () => {
                 </button>
             </div>
 
-            {/* --- STATUS OVERVIEW CARD --- */}
             <div className="card border-0 shadow rounded-4 mb-5 overflow-hidden position-relative">
                 <div
                     className={`position-absolute top-0 start-0 h-100 w-1 ${
@@ -157,7 +155,7 @@ const SystemLogs = () => {
                                 </span>
                             </div>
                         </div>
-                        {/* Decorative background icon */}
+                       
                         <i
                             className="bi bi-activity text-muted opacity-10 d-none d-md-block"
                             style={{
@@ -172,7 +170,7 @@ const SystemLogs = () => {
             </div>
 
             <div className="row g-4">
-                {/* --- LEFT: DIAGNOSTICS HISTORY --- */}
+              
                 <div className="col-lg-6">
                     <div className="card border-0 shadow-sm rounded-4 h-100">
                         <div className="card-header bg-white border-0 py-4 px-4 d-flex justify-content-between align-items-center">
@@ -250,7 +248,7 @@ const SystemLogs = () => {
                     </div>
                 </div>
 
-                {/* --- RIGHT: RECENT LOGINS --- */}
+               
                 <div className="col-lg-6">
                     <div className="card border-0 shadow-sm rounded-4 h-100">
                         <div className="card-header bg-white border-0 py-4 px-4 d-flex justify-content-between align-items-center">

@@ -6,11 +6,11 @@ import "./Sidebar.css";
 const Sidebar = () => {
     const location = useLocation();
 
-    // 1. Get User from Store
+    //  Get User from Store
     const { user } = useAuthStore();
 
-    // 2. Safe Role Check
-    // We use optional chaining (?.) just in case user is null while loading
+    // Safe Role Check
+   
     const userRole = user?.role?.name || "";
 
     const isAdmin = userRole === "Administrator";
@@ -33,7 +33,7 @@ const Sidebar = () => {
 
     return (
         <div className="list-group list-group-flush mt-3">
-            {/* --- GENERAL LINKS (Everyone) --- */}
+           
             <Link to="/dashboard" className={getLinkClasses("/dashboard")}>
                 <i className="bi bi-bar-chart-line-fill fs-5"></i>
                 <span>Overview</span>
@@ -47,7 +47,7 @@ const Sidebar = () => {
                 <span>Knowledge Base</span>
             </Link>
 
-            {/* --- MANAGEMENT LINKS (Admins & Managers) --- */}
+           
             {(isAdmin || isManager) && (
                 <Link
                     to="/dashboard/reviews"
@@ -58,7 +58,7 @@ const Sidebar = () => {
                 </Link>
             )}
 
-            {/* --- ADMIN ONLY LINKS --- */}
+           
             {isAdmin && (
                 <>
                     <div className="sidebar-section-header">Administration</div>
@@ -73,7 +73,7 @@ const Sidebar = () => {
                 </>
             )}
 
-            {/* --- SYSTEM LINKS (Everyone) --- */}
+           
             <div className="sidebar-section-header">System</div>
             {isAdmin && (
                 <Link

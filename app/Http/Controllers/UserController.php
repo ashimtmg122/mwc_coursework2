@@ -13,32 +13,31 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        // 1️⃣ Validate
+       
         $credentials = $request->validate([
             'email'    => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        // 2️⃣ Attempt login
         if (! Auth::attempt($credentials)) {
             return response()->json([
                 'message' => 'Invalid email or password'
             ], 401);
         }
 
-        // 3️⃣ Get authenticated user
+       
         $user = Auth::user();
 
-        // 4️⃣ Generate token
+        
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        // 5️⃣ Log the login (directly in controller)
+        
         LoginLog::create([
             'user_id' => $user->id,
-            'login_time' => now(), // Captures exact time
+            'login_time' => now(), 
         ]);
 
-        // 6️⃣ Return response
+       
         return response()->json([
             'token' => $token,
             'user'  => $user,
@@ -48,36 +47,33 @@ class UserController extends Controller
 
     public function getUser(Request $request)
     {
-        // We MUST use load('role') to attach the role data to the JSON response
         return response()->json($request->user()->load('role'));
     }
 
     public function logout(Request $request)
     {
-        // Revoke the current token
         $request->user()->currentAccessToken()->delete();
 
         return response()->json(['message' => 'Logged out successfully.']);
     }
 
-    // app/Http/Controllers/Api/UserController.php
 
     public function index(Request $request)
     {
-        $query = \App\Models\User::with('role'); // Load Role relationship
+        $query = \App\Models\User::with('role'); 
 
-        // Search Logic
+       
         if ($request->has('search')) {
             $search = $request->search;
             $query->where('name', 'LIKE', "%{$search}%")
                 ->orWhere('email', 'LIKE', "%{$search}%");
         }
 
-        // Return paginated 10 users per page
+        
         return response()->json($query->paginate(10));
     }
 
-    // Add Delete method (optional but useful)
+
     public function destroy($id)
     {
         $user = \App\Models\User::find($id);
@@ -88,20 +84,19 @@ class UserController extends Controller
         return response()->json(['message' => 'User not found'], 404);
     }
 
-    // Get Single User (for editing)
+   
     public function show($id)
     {
         return response()->json(\App\Models\User::findOrFail($id));
     }
 
-    // Update User
     public function update(Request $request, $id)
     {
         $user = \App\Models\User::findOrFail($id);
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id, // Ignore current user's email
+            'email' => 'required|email|unique:users,email,' . $user->id, 
             'role_id' => 'required|exists:roles,id',
         ]);
 
@@ -114,7 +109,7 @@ class UserController extends Controller
         return response()->json(['message' => 'User updated successfully', 'user' => $user]);
     }
 
-    // Get All Roles (for the dropdown)
+    // Get All Roles 
     public function roles()
     {
         return response()->json(\App\Models\Role::all());
@@ -125,7 +120,7 @@ class UserController extends Controller
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8', // Password is required for creation
+            'password' => 'required|string|min:8', 
             'role_id' => 'required|exists:roles,id',
         ]);
 

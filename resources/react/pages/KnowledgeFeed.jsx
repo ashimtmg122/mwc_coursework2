@@ -36,14 +36,13 @@ const KnowledgeFeed = () => {
     const fetchKnowledge = async (query = "", page = 1) => {
         setLoading(true);
         try {
-            // Laravel Pagination API Call: /knowledge?search=...&page=...
+           
             const res = await Axios.get(
                 `/knowledge?search=${query}&page=${page}`
             );
 
             setItems(res.data.data);
 
-            // Store Pagination Meta Data
             setPagination({
                 current_page: res.data.current_page,
                 last_page: res.data.last_page,
@@ -64,7 +63,7 @@ const KnowledgeFeed = () => {
     // Handle Search
     const handleSearch = (e) => {
         e.preventDefault();
-        // Reset to page 1 when searching
+      
         fetchKnowledge(searchTerm, 1);
     };
 
@@ -79,19 +78,19 @@ const KnowledgeFeed = () => {
     // Status Helpers
     const getStatusConfig = (status) => {
         switch (status) {
-            case 0: // Draft
+            case 0: 
                 return {
                     badge: "bg-secondary bg-opacity-10 text-secondary",
                     border: "#6c757d",
                     label: "Draft",
                 };
-            case 1: // Pending
+            case 1: 
                 return {
                     badge: "bg-warning bg-opacity-10 text-warning",
                     border: "#ffc107",
                     label: "Pending Review",
                 };
-            case 2: // Published
+            case 2: 
                 return {
                     badge: "bg-success bg-opacity-10 text-success",
                     border: "#198754",
@@ -108,9 +107,9 @@ const KnowledgeFeed = () => {
 
     return (
         <>
-            {/* Header Section */}
+           
             <div className="row mb-1 align-items-center">
-                {/* 1. Title (Takes up 5 columns) */}
+             
                 <div className="col-md-5">
                     <h1 className="fw-bold text-pine mb-1">Knowledge Base</h1>
                     <p className="text-muted">
@@ -119,7 +118,7 @@ const KnowledgeFeed = () => {
                     </p>
                 </div>
 
-                {/* 2. Create Button (Takes up 2 columns) */}
+               
                 <div className="col-md-2 text-end">
                     <Link
                         to="/dashboard/knowledge/create"
@@ -130,7 +129,7 @@ const KnowledgeFeed = () => {
                     </Link>
                 </div>
 
-                {/* 3. Search Bar (Takes up 5 columns - Kept your existing code) */}
+             
                 <div className="col-md-5">
                     <form onSubmit={handleSearch} className="d-flex ">
                         <input
@@ -154,7 +153,7 @@ const KnowledgeFeed = () => {
                 <DownloadButton />
             </div>
 
-            {/* Loading State */}
+           
             {loading && (
                 <div className="text-center py-5 text-muted">
                     <div
@@ -165,7 +164,7 @@ const KnowledgeFeed = () => {
                 </div>
             )}
 
-            {/* Empty State */}
+         
             {!loading && items.length === 0 && (
                 <div className="text-center py-5 bg-white rounded-4 shadow-sm border">
                     <i className="bi bi-journal-x fs-1 text-muted opacity-50"></i>
@@ -193,7 +192,7 @@ const KnowledgeFeed = () => {
                         return (
                             <div key={item.id} className="col-md-6 col-lg-12">
                                 <div className="knowledge-card p-4 h-100 d-flex flex-column shadow-sm">
-                                    {/* Status Border Color Strip */}
+                                  
                                     <div
                                         className="card-accent"
                                         style={{
@@ -202,7 +201,7 @@ const KnowledgeFeed = () => {
                                         }}
                                     ></div>
 
-                                    {/* Header: Badge & Date */}
+                                  
                                     <div className="d-flex justify-content-between align-items-start mb-3 ps-2">
                                         <span
                                             className={`badge rounded-pill ${statusConfig.badge} px-3 py-2 border border-opacity-10`}
@@ -217,7 +216,7 @@ const KnowledgeFeed = () => {
                                         </small>
                                     </div>
 
-                                    {/* Title */}
+                                  
                                     <Link
                                         to={`/dashboard/knowledge/${item.id}`}
                                         className="text-decoration-none ps-2"
@@ -227,7 +226,7 @@ const KnowledgeFeed = () => {
                                         </h4>
                                     </Link>
 
-                                    {/* Description */}
+                                   
                                     <p
                                         className="text-muted ps-2 mb-3"
                                         style={{ lineHeight: "1.6" }}
@@ -240,7 +239,7 @@ const KnowledgeFeed = () => {
                                             : item.description}
                                     </p>
 
-                                    {/* Tags Row (Moved here for better spacing) */}
+                                   
                                     <div className="ps-2 mb-3 d-flex gap-2 flex-grow-1 align-items-end">
                                         {item.tags?.slice(0, 3).map((tag) => (
                                             <span
@@ -252,9 +251,9 @@ const KnowledgeFeed = () => {
                                         ))}
                                     </div>
 
-                                    {/* Footer: Author & Action Buttons */}
+                                   
                                     <div className="mt-3 pt-3 border-top d-flex justify-content-between align-items-center ps-2">
-                                        {/* Left: Author Info */}
+                                       
                                         <div className="d-flex align-items-center gap-2">
                                             <div
                                                 className="bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center fw-bold border border-success border-opacity-25"
@@ -271,9 +270,9 @@ const KnowledgeFeed = () => {
                                             </span>
                                         </div>
 
-                                        {/* Right: Action Buttons */}
+                                    
                                         <div className="d-flex gap-2">
-                                            {/* View Button */}
+                                          
                                             <Link
                                                 to={`/dashboard/knowledge/${item.id}`}
                                                 className="btn btn-sm btn-outline-secondary rounded-pill px-3 d-flex align-items-center gap-1"
@@ -286,7 +285,7 @@ const KnowledgeFeed = () => {
                                                 View
                                             </Link>
 
-                                            {/* Edit Button - Uses your Pine theme */}
+                                           
                                             <Link
                                                 to={`/dashboard/knowledge/${item.id}/edit`}
                                                 className="btn btn-sm btn-pine rounded-pill px-3 d-flex align-items-center gap-1"
@@ -302,7 +301,7 @@ const KnowledgeFeed = () => {
                     })}
             </div>
 
-            {/* Pagination Controls */}
+      
             {!loading && items.length > 0 && (
                 <div className="d-flex justify-content-center align-items-center mt-5 gap-3">
                     <button

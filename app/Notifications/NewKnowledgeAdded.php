@@ -28,7 +28,7 @@ class NewKnowledgeAdded extends Notification implements ShouldQueue // <--- Adde
     public function toArray(object $notifiable): array
     {
         return [
-            // Message: "Admin Name published: Article Title"
+           
             'message' => $this->publisherName . ' published: "' . $this->item->title . '"',
             'document_id' => $this->item->id,
             'link' => '/dashboard/knowledge/' . $this->item->id

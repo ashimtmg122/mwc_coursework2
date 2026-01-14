@@ -14,7 +14,7 @@ const DashboardLayout = () => {
     return (
         <>
             <div className="d-flex" id="wrapper">
-                {/* Sidebar */}
+                
                 <div
                     className="sidebar-pine border-end"
                     id="sidebar-wrapper"
@@ -34,13 +34,11 @@ const DashboardLayout = () => {
                         </span>
                     </div>
 
-                    {/* Sidebar Component */}
                     <div className="p-2">
                         <Sidebar />
                     </div>
                 </div>
 
-                {/* Main Content */}
                 <div
                     id="page-content-wrapper"
                     className="dashboard-bg"
@@ -53,7 +51,7 @@ const DashboardLayout = () => {
                             <h2 className="fw-bold text-pine m-0">
                                 Dashboard Overview
                             </h2>
-                            {/* Optional: Breadcrumb or Date */}
+                           
                             <small className="text-muted">
                                 {new Date().toLocaleDateString("en-GB", {
                                     weekday: "long",

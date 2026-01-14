@@ -7,7 +7,7 @@ const PendingReviews = () => {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // Fetch only Pending (Status = 1)
+
     const fetchPending = async () => {
         try {
             const res = await Axios.get("/knowledge?status=1");
@@ -23,7 +23,7 @@ const PendingReviews = () => {
         fetchPending();
     }, []);
 
-    // Handle Approve (2) / Reject (0)
+
     const processItem = async (id, newStatus) => {
         try {
             await Axios.post(`/knowledge/${id}/status`, { status: newStatus });
@@ -126,9 +126,9 @@ const PendingReviews = () => {
                                         </div>
                                     </div>
 
-                                    {/* Action Buttons */}
+                                  
                                     <div className="d-flex gap-2 flex-shrink-0 w-100 w-md-auto">
-                                        {/* View Details */}
+                                       
                                         <Link
                                             to={`/dashboard/knowledge/${item.id}`}
                                             className="btn btn-light border text-muted px-3"
@@ -137,7 +137,7 @@ const PendingReviews = () => {
                                             <i className="bi bi-eye"></i>
                                         </Link>
 
-                                        {/* Reject */}
+                                     
                                         <button
                                             onClick={() =>
                                                 processItem(item.id, 0)
@@ -148,7 +148,7 @@ const PendingReviews = () => {
                                             Reject
                                         </button>
 
-                                        {/* Approve */}
+                                      
                                         <button
                                             onClick={() =>
                                                 processItem(item.id, 2)

@@ -8,7 +8,7 @@ use App\Models\Role;
 
 class RoleController extends Controller
 {
-    // List all roles with the count of users assigned to them
+    // List all roles with the count of users 
     public function index()
     {
         return response()->json(Role::withCount('users')->get());
@@ -43,7 +43,7 @@ class RoleController extends Controller
     {
         $role = Role::withCount('users')->findOrFail($id);
 
-        // SAFETY CHECK: Don't delete if users exist
+        
         if ($role->users_count > 0) {
             return response()->json([
                 'message' => 'Cannot delete role because ' . $role->users_count . ' users are assigned to it.'

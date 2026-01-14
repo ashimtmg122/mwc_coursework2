@@ -9,7 +9,7 @@ const EditUser = () => {
 
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
-    const [roles, setRoles] = useState([]); // Available roles for dropdown
+    const [roles, setRoles] = useState([]); 
     const [errors, setErrors] = useState({});
 
     const [formData, setFormData] = useState({
@@ -18,11 +18,11 @@ const EditUser = () => {
         role_id: "",
     });
 
-    // Fetch User & Roles on load
+    
     useEffect(() => {
         const loadData = async () => {
             try {
-                // Parallel requests for speed
+               
                 const [userRes, rolesRes] = await Promise.all([
                     Axios.get(`/users/${id}`),
                     Axios.get(`/users/roles`),
@@ -93,7 +93,7 @@ const EditUser = () => {
 
             <div className="bg-white p-5 rounded-4 shadow-sm border">
                 <form onSubmit={handleSubmit}>
-                    {/* Name */}
+                  
                     <div className="mb-4">
                         <label className="form-label fw-bold">Full Name</label>
                         <input
@@ -112,7 +112,7 @@ const EditUser = () => {
                         )}
                     </div>
 
-                    {/* Email */}
+                
                     <div className="mb-4">
                         <label className="form-label fw-bold">
                             Email Address
@@ -133,7 +133,7 @@ const EditUser = () => {
                         )}
                     </div>
 
-                    {/* Role Dropdown */}
+                 
                     <div className="mb-4">
                         <label className="form-label fw-bold">
                             System Role

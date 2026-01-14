@@ -9,7 +9,7 @@ class SystemHealthLog extends Model
 {
     use HasFactory;
 
-    protected $table = 'system_health_logs'; // Match your table name
+    protected $table = 'system_health_logs'; 
 
     protected $fillable = ['monitored_by_id', 'status'];
 

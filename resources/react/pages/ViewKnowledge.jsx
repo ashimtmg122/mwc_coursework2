@@ -5,7 +5,6 @@ import CommentForm from "../components/ui/CommentForm";
 import { toast } from "react-toastify";
 import { useAuthStore } from "../store/useAuthStore";
 
-// ... inside your component ...
 
 const ViewKnowledge = () => {
     const { id } = useParams();
@@ -25,7 +24,7 @@ const ViewKnowledge = () => {
             } catch (error) {
                 console.error("Error fetching item", error);
                 toast.error("Could not load document.");
-                // navigate("/dashboard/knowledge");
+              
             } finally {
                 setLoading(false);
             }
@@ -67,7 +66,7 @@ const ViewKnowledge = () => {
             );
         }
     };
-    // Handle Share (Copy Link)
+
     const handleShare = () => {
         navigator.clipboard.writeText(window.location.href);
         toast.info("Link copied to clipboard!");
@@ -198,7 +197,7 @@ const ViewKnowledge = () => {
             </style>
 
             <div className="container py-5" style={{ maxWidth: "1100px" }}>
-                {/* 1. Breadcrumb Nav */}
+                
                 <div className="mb-4 d-flex align-items-center justify-content-between">
                     <Link
                         to="/dashboard/knowledge"
@@ -212,13 +211,13 @@ const ViewKnowledge = () => {
                     </div>
                 </div>
 
-                {/* --- WORKFLOW ACTIONS --- */}
+                
                 <div className="mb-4 pb-4 border-bottom">
                     <div className="meta-label text-pine mb-2">Workflow</div>
 
-                    {/* --- STATUS 0: DRAFT --- */}
+                    
                     {item.status === 0 &&
-                        // Only Author or Admin can submit
+                       
                         (isAuthor || isAdminOrManager) && (
                             <button
                                 onClick={() => handleStatusChange(1)}
@@ -229,10 +228,9 @@ const ViewKnowledge = () => {
                             </button>
                         )}
 
-                    {/* --- STATUS 1: PENDING REVIEW --- */}
                     {item.status === 1 && (
                         <>
-                            {/* ADMINS: Can Approve or Reject */}
+                           
                             {isAdminOrManager ? (
                                 <div className="d-grid gap-2">
                                     <button
@@ -251,7 +249,7 @@ const ViewKnowledge = () => {
                                     </button>
                                 </div>
                             ) : (
-                                // NORMAL USER: Just sees a message (or a 'Cancel' button if they are author)
+                               
                                 <div className="alert alert-warning py-2 small mb-0 text-center">
                                     <i className="bi bi-hourglass-split me-1"></i>{" "}
                                     Awaiting Admin Review
@@ -260,9 +258,8 @@ const ViewKnowledge = () => {
                         </>
                     )}
 
-                    {/* --- STATUS 2: PUBLISHED --- */}
                     {item.status === 2 &&
-                        // Only Admin/Manager can Unpublish
+                       
                         isAdminOrManager && (
                             <button
                                 onClick={() => handleStatusChange(0)}
@@ -273,14 +270,14 @@ const ViewKnowledge = () => {
                             </button>
                         )}
                 </div>
-                {/* ... Existing Edit/Share buttons below ... */}
+               
 
                 <div className="row g-4">
-                    {/* LEFT COLUMN: Main Document */}
+                   
                     <div className="col-lg-8">
-                        {/* Document Container */}
+                      
                         <div className="doc-card p-5 mb-5 position-relative bg-white">
-                            {/* Top Meta Row */}
+                           
                             <div className="d-flex justify-content-between align-items-center mb-4">
                                 <span
                                     className={`badge rounded-pill border border-opacity-25 px-3 py-2 fw-normal ${status.badgeClass}`}
@@ -298,12 +295,12 @@ const ViewKnowledge = () => {
                                 </span>
                             </div>
 
-                            {/* Title */}
+                           
                             <h1 className="fw-bold text-dark mb-4 doc-title display-6">
                                 {item.title}
                             </h1>
 
-                            {/* Author Section */}
+                          
                             <div className="d-flex align-items-center gap-3 py-4 mb-4 border-top border-bottom">
                                 <div
                                     className="bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center fw-bold"
@@ -332,7 +329,7 @@ const ViewKnowledge = () => {
                                 </div>
                             </div>
 
-                            {/* Main Body Content */}
+                           
                             <div className="doc-content">
                                 {item.description.split("\n").map((line, i) => (
                                     <p key={i} className="mb-3">
@@ -342,7 +339,7 @@ const ViewKnowledge = () => {
                             </div>
                         </div>
 
-                        {/* Discussion Section */}
+                   
                         <div className="mt-5">
                             <h4 className="fw-bold text-dark mb-4 d-flex align-items-center gap-2">
                                 <i className="bi bi-chat-square-text text-pine"></i>
@@ -371,17 +368,17 @@ const ViewKnowledge = () => {
                                         key={comment.id}
                                         className="d-flex gap-3 mb-4 position-relative"
                                     >
-                                        {/* Thread Line (except for last item) */}
+                                       
                                         {index !== item.comments.length - 1 && (
                                             <div className="comment-thread-line"></div>
                                         )}
 
-                                        {/* Avatar */}
+                                       
                                         <div className="comment-avatar bg-white border text-primary">
                                             {comment.user?.name?.[0]}
                                         </div>
 
-                                        {/* Comment Body */}
+                                      
                                         <div className="flex-grow-1">
                                             <div className="d-flex align-items-baseline gap-2 mb-1">
                                                 <span className="fw-bold text-dark text-sm">
@@ -412,13 +409,13 @@ const ViewKnowledge = () => {
                         </div>
                     </div>
 
-                    {/* RIGHT COLUMN: Sidebar Tools */}
+                  
                     <div className="col-lg-4">
                         <div
                             className="position-sticky"
                             style={{ top: "2rem" }}
                         >
-                            {/* Action Card */}
+                         
                             <div className="doc-card p-4 mb-4">
                                 <div className="meta-label">Actions</div>
                                 <div className="d-grid gap-2">
@@ -449,9 +446,9 @@ const ViewKnowledge = () => {
                                 </div>
                             </div>
 
-                            {/* Metadata Card */}
+                           
                             <div className="doc-card p-4">
-                                {/* Tags */}
+                              
                                 <div className="mb-4">
                                     <div className="meta-label">Tags</div>
                                     <div className="d-flex flex-wrap gap-2">
@@ -472,7 +469,7 @@ const ViewKnowledge = () => {
                                     </div>
                                 </div>
 
-                                {/* Category */}
+                               
                                 <div className="mb-4">
                                     <div className="meta-label">Category</div>
                                     <div className="d-flex align-items-center gap-2 text-dark fw-medium">
@@ -483,7 +480,7 @@ const ViewKnowledge = () => {
 
                                 <hr className="opacity-10 my-3" />
 
-                                {/* Stats (Optional Dummy Data) */}
+                                
                                 <div className="d-flex justify-content-between text-muted small">
                                     <span>Views</span>
                                     <span className="fw-bold text-dark">

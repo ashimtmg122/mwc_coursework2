@@ -38,10 +38,9 @@ const CreateKnowledge = () => {
             ...formData,
             tags: [...formData.tags, newTag],
         });
-        setTagInput(""); // Reset input
+        setTagInput(""); 
     };
 
-    // Remove Tag Logic
     const handleRemoveTag = (indexToRemove) => {
         setFormData({
             ...formData,
@@ -56,7 +55,7 @@ const CreateKnowledge = () => {
         setErrors({});
 
         try {
-            // Sends: { title: "...", description: "...", tags: [{label: "...", category: "..."}] }
+          
             await Axios.post("/knowledge", formData);
 
             toast.success("Draft created successfully!");
@@ -64,7 +63,7 @@ const CreateKnowledge = () => {
         } catch (err) {
             console.error(err);
             if (err.response && err.response.status === 422) {
-                // Laravel Validation Errors
+             
                 setErrors(err.response.data.errors);
             } else {
                 toast.error("Something went wrong. Please try again.");
@@ -83,7 +82,7 @@ const CreateKnowledge = () => {
             </style>
 
             <div className="container py-4" style={{ maxWidth: "800px" }}>
-                {/* Header */}
+              
                 <div className="d-flex justify-content-between align-items-center mb-4">
                     <div>
                         <h2 className="fw-bold text-pine mb-1">
@@ -101,10 +100,10 @@ const CreateKnowledge = () => {
                     </Link>
                 </div>
 
-                {/* Main Form */}
+               
                 <div className="form-card p-5">
                     <form onSubmit={handleSubmit}>
-                        {/* Title Input */}
+                      
                         <div className="mb-4">
                             <label className="form-label fw-bold text-dark">
                                 Title
@@ -126,7 +125,7 @@ const CreateKnowledge = () => {
                             )}
                         </div>
 
-                        {/* Description Input */}
+                     
                         <div className="mb-4">
                             <label className="form-label fw-bold text-dark">
                                 Description
@@ -153,7 +152,7 @@ const CreateKnowledge = () => {
 
                         <hr className="my-4 opacity-10" />
 
-                        {/* Tag Manager */}
+                      
                         <div className="mb-4">
                             <label className="form-label fw-bold text-dark mb-2">
                                 Tags & Metadata
@@ -216,7 +215,7 @@ const CreateKnowledge = () => {
                                     </div>
                                 </div>
 
-                                {/* Active Tags Display */}
+                             
                                 <div className="d-flex flex-wrap gap-2">
                                     {formData.tags.length === 0 && (
                                         <small className="text-muted fst-italic">
@@ -246,7 +245,7 @@ const CreateKnowledge = () => {
                             </div>
                         </div>
 
-                        {/* Submit Actions */}
+                       
                         <div className="d-flex justify-content-end gap-3 mt-5">
                             <button
                                 type="submit"

@@ -7,8 +7,8 @@ const EditKnowledge = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const [loadingData, setLoadingData] = useState(true); // Initial fetch loading
-    const [submitting, setSubmitting] = useState(false); // Submit button loading
+    const [loadingData, setLoadingData] = useState(true); 
+    const [submitting, setSubmitting] = useState(false); 
     const [errors, setErrors] = useState({});
 
     // Form State
@@ -18,25 +18,25 @@ const EditKnowledge = () => {
         tags: [],
     });
 
-    // Tag Input State
+    
     const [tagInput, setTagInput] = useState("");
     const [categoryInput, setCategoryInput] = useState("General");
 
-    // 1. Fetch Existing Data
+    // Fetch Existing Data
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const res = await Axios.get(`/knowledge/${id}`);
                 const item = res.data;
 
-                // Populate Form
+                
                 setFormData({
                     title: item.title,
                     description: item.description,
                     tags: item.tags.map((t) => ({
                         label: t.label,
                         category: t.category || "General",
-                    })), // Format tags for UI
+                    })), 
                 });
             } catch (error) {
                 console.error("Error fetching data", error);
@@ -84,11 +84,11 @@ const EditKnowledge = () => {
         setErrors({});
 
         try {
-            // Note: Ensure your Laravel route supports PUT /knowledge/{id}
+          
             await Axios.put(`/knowledge/${id}`, formData);
 
             toast.success("Knowledge item updated successfully!");
-            navigate(`/dashboard/knowledge/${id}`); // Go back to view page
+            navigate(`/dashboard/knowledge/${id}`); 
         } catch (err) {
             console.error(err);
             if (err.response && err.response.status === 422) {
@@ -138,10 +138,10 @@ const EditKnowledge = () => {
                     </Link>
                 </div>
 
-                {/* Main Form */}
+            
                 <div className="form-card p-5">
                     <form onSubmit={handleSubmit}>
-                        {/* Title Input */}
+                       
                         <div className="mb-4">
                             <label className="form-label fw-bold text-dark">
                                 Title
@@ -162,7 +162,7 @@ const EditKnowledge = () => {
                             )}
                         </div>
 
-                        {/* Description Input */}
+                     
                         <div className="mb-4">
                             <label className="form-label fw-bold text-dark">
                                 Description
@@ -185,7 +185,7 @@ const EditKnowledge = () => {
 
                         <hr className="my-4 opacity-10" />
 
-                        {/* Tag Manager */}
+                       
                         <div className="mb-4">
                             <label className="form-label fw-bold text-dark mb-2">
                                 Tags & Metadata
@@ -245,7 +245,7 @@ const EditKnowledge = () => {
                                     </div>
                                 </div>
 
-                                {/* Active Tags Display */}
+                               
                                 <div className="d-flex flex-wrap gap-2">
                                     {formData.tags.length === 0 && (
                                         <small className="text-muted fst-italic">
@@ -275,7 +275,6 @@ const EditKnowledge = () => {
                             </div>
                         </div>
 
-                        {/* Submit Actions */}
                         <div className="d-flex justify-content-end gap-3 mt-5">
                             <button
                                 type="submit"

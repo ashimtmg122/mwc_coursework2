@@ -6,14 +6,13 @@ import { useAuthStore } from "../store/useAuthStore";
 const Profile = () => {
     const { user, setUser } = useAuthStore();
 
-    // --- STATE: Profile Info ---
+    
     const [infoData, setInfoData] = useState({
         name: user?.name || "",
         email: user?.email || "",
     });
     const [loadingInfo, setLoadingInfo] = useState(false);
 
-    // --- STATE: Password ---
     const [passData, setPassData] = useState({
         current_password: "",
         password: "",
@@ -22,7 +21,7 @@ const Profile = () => {
     const [loadingPass, setLoadingPass] = useState(false);
     const [passErrors, setPassErrors] = useState({});
 
-    // --- HANDLERS ---
+    
 
     const handleInfoSubmit = async (e) => {
         e.preventDefault();
@@ -66,7 +65,7 @@ const Profile = () => {
             <h2 className="fw-bold text-pine mb-4">Account Settings</h2>
 
             <div className="row g-4">
-                {/* --- LEFT COL: General Info --- */}
+                
                 <div className="col-lg-6">
                     <div className="card border-0 shadow-sm rounded-4 p-4 h-100">
                         <h5 className="fw-bold mb-4">Profile Information</h5>
@@ -132,7 +131,7 @@ const Profile = () => {
                     </div>
                 </div>
 
-                {/* --- RIGHT COL: Security --- */}
+               
                 <div className="col-lg-6">
                     <div className="card border-0 shadow-sm rounded-4 p-4 h-100">
                         <h5 className="fw-bold mb-4">Security</h5>

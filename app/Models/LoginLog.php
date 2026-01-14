@@ -9,8 +9,8 @@ class LoginLog extends Model
 {
     use HasFactory;
 
-    protected $table = 'login_logs'; // Match your table name
-    public $timestamps = false;      // Your schema only has 'login_time', not created_at/updated_at
+    protected $table = 'login_logs'; 
+    public $timestamps = false;      
 
     protected $fillable = ['user_id', 'login_time'];
 

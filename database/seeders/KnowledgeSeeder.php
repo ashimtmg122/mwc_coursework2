@@ -22,58 +22,53 @@ class KnowledgeSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Fetch our Actors (created in the previous User seeder)
+       
         $admin = User::where('email', 'admin@admin.com')->first();
         $manager = User::where('email', 'manager@admin.com')->first();
         $champion = User::where('email', 'champion@admin.com')->first();
         $employee = User::where('email', 'employee@admin.com')->first();
 
-        // Safety check
+   
         if (!$employee) {
             $this->command->info("Please run the UserSeeder first!");
             return;
         }
 
-        // ==========================================
-        // 2. CREATE WORKSPACES (Collaboration)
-        // ==========================================
+        
         $workspace = Workspace::create([
             'owner_id' => $manager->id,
             'name' => 'Q1 Digital Transformation',
         ]);
         $this->command->info('Workspace created.');
 
-        // ==========================================
-        // 3. CREATE KNOWLEDGE ITEMS & ASSOCIATIONS
-        // ==========================================
-
-        // Item 1: A Draft by Employee
+       
+      
         $draft = KnowledgeItem::create([
             'author_id' => $employee->id,
             'title' => 'React Component Standards 2025',
             'description' => 'Guidelines for using Hooks and Context API.',
-            'status' => 0, // Draft
+            'status' => 0, 
         ]);
 
-        // Add Version
+        
         Version::create([
             'knowledge_item_id' => $draft->id,
             'version_number' => '0.1',
         ]);
 
-        // Add Tag
+    
         MetadataTag::create([
             'knowledge_item_id' => $draft->id,
             'label' => 'Frontend',
             'category' => 'Engineering',
         ]);
 
-        // Item 2: Pending Review (Submitted by Employee)
+       
         $pending = KnowledgeItem::create([
             'author_id' => $employee->id,
             'title' => 'Laravel API Security Best Practices',
             'description' => 'How to use Sanctum and Policies correctly.',
-            'status' => 1, // Pending
+            'status' => 1, 
         ]);
 
         Version::create([
@@ -87,7 +82,7 @@ class KnowledgeSeeder extends Seeder
             'category' => 'Backend',
         ]);
 
-        // Item 3: Published & Approved (By Champion)
+   
         $published = KnowledgeItem::create([
             'author_id' => $champion->id,
             'title' => 'Onboarding Documentation v2',
@@ -95,11 +90,7 @@ class KnowledgeSeeder extends Seeder
             'status' => 2, // Published
         ]);
 
-        // ==========================================
-        // 4. CREATE WORKFLOWS (Validation & Feedback)
-        // ==========================================
-
-        // Validation Request for the Pending Item
+        
         ValidationRequest::create([
             'requester_id' => $employee->id,
             'knowledge_item_id' => $pending->id,
@@ -107,13 +98,12 @@ class KnowledgeSeeder extends Seeder
             'request_on' => Carbon::now(),
         ]);
 
-        // Suggestion on the Draft
         Suggestion::create([
             'knowledge_item_id' => $draft->id,
             'message' => 'Please add a section on Custom Hooks.',
         ]);
 
-        // Comment on the Published Item
+       
         Comment::create([
             'knowledge_item_id' => $published->id,
             'user_id' => $manager->id,
@@ -122,27 +112,23 @@ class KnowledgeSeeder extends Seeder
 
         $this->command->info('Knowledge Items & Workflow seeded.');
 
-        // ==========================================
-        // 5. SYSTEM ADMIN LOGS
-        // ==========================================
-
-        // System Health Log
+        
         SystemHealthLog::create([
             'monitored_by_id' => $admin->id,
-            'status' => 1, // Healthy
+            'status' => 1, 
         ]);
 
         DB::table('notifications')->insert([
             [
                 'type' => 'SystemAlert',
                 'notifiable_type' => 'App\Models\User',
-                'notifiable_id' => 1, // User ID
+                'notifiable_id' => 1, 
                 'data' => json_encode([
                     'message' => 'Welcome to the new Knowledge System!',
                     'link' => '/dashboard',
                     'document_id' => null
                 ]),
-                'read_at' => null, // Unread
+                'read_at' => null, 
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

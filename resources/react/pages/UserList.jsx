@@ -51,7 +51,7 @@ const UserList = () => {
         }
     };
 
-    // Helper: Role Badge Color
+
     const getRoleBadge = (roleName) => {
         const role = roleName?.toLowerCase() || "";
         if (role.includes("admin"))
@@ -60,7 +60,7 @@ const UserList = () => {
             return "bg-primary bg-opacity-10 text-primary";
         if (role.includes("champion"))
             return "bg-warning bg-opacity-10 text-warning";
-        return "bg-secondary bg-opacity-10 text-secondary"; // Employee/Default
+        return "bg-secondary bg-opacity-10 text-secondary"; 
     };
 
     return (
@@ -111,7 +111,7 @@ const UserList = () => {
             </style>
 
             <div className="container py-4">
-                {/* Header Section */}
+                
                 <div className="d-flex justify-content-between align-items-center mb-5">
                     <div>
                         <h2 className="fw-bold text-pine mb-1">Team Members</h2>
@@ -130,7 +130,7 @@ const UserList = () => {
                     </Link>
                 </div>
 
-                {/* Search & Filter Bar */}
+            
                 <div className="row mb-4">
                     <div className="col-md-5">
                         <form onSubmit={handleSearch} className="d-flex gap-2">
@@ -151,7 +151,7 @@ const UserList = () => {
                     </div>
                 </div>
 
-                {/* Table Card */}
+           
                 <div className="table-card p-4">
                     {loading ? (
                         <div className="text-center py-5">
@@ -242,7 +242,7 @@ const UserList = () => {
                         </div>
                     )}
 
-                    {/* Simple Pagination */}
+               
                     {!loading && pagination.last_page > 1 && (
                         <div className="d-flex justify-content-end mt-4 gap-2">
                             <button

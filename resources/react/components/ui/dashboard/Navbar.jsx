@@ -8,12 +8,12 @@ const Navbar = () => {
     const navigate = useNavigate();
     const { user, setUser } = useAuthStore();
 
-    // --- NOTIFICATION STATE ---
+    
     const [notifications, setNotifications] = useState([]);
     const [showNotifMenu, setShowNotifMenu] = useState(false);
     const notifRef = useRef(null);
 
-    // 1. Fetch Notifications
+    // Fetch Notifications
     const fetchNotifications = async () => {
         try {
             const res = await Axios.get("/notifications");
@@ -29,7 +29,7 @@ const Navbar = () => {
         return () => clearInterval(interval);
     }, []);
 
-    // 2. Toggle Notification Dropdown
+    //  Toggle Notification Dropdown
     const toggleNotif = async () => {
         setShowNotifMenu(!showNotifMenu);
         if (!showNotifMenu && notifications.some((n) => !n.read_at)) {
@@ -52,7 +52,7 @@ const Navbar = () => {
             document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    // --- LOGOUT LOGIC ---
+   
     const handleLogout = () => {
         localStorage.removeItem("ACCESS_TOKEN");
         if (setUser) setUser(null);
@@ -66,7 +66,7 @@ const Navbar = () => {
             style={{ zIndex: 1050 }}
         >
             <div className="container-fluid">
-                {/* Mobile Toggle */}
+               
                 <button
                     className="btn btn-outline-secondary d-lg-none"
                     id="sidebarToggle"
@@ -79,7 +79,7 @@ const Navbar = () => {
                     id="navbarSupportedContent"
                 >
                     <ul className="navbar-nav ms-auto align-items-center">
-                        {/* --- NOTIFICATION BELL --- */}
+                        
                         <li
                             className="nav-item me-4 position-relative"
                             ref={notifRef}
@@ -110,7 +110,7 @@ const Navbar = () => {
                                     )}
                             </button>
 
-                            {/* Notification Dropdown */}
+                        
                             {showNotifMenu && (
                                 <div
                                     className="position-absolute end-0 mt-3 bg-white border rounded-4 shadow-lg overflow-hidden"
@@ -187,7 +187,7 @@ const Navbar = () => {
                             )}
                         </li>
 
-                        {/* --- USER INFO (No Dropdown) --- */}
+                      
                         <li className="nav-item d-flex align-items-center gap-3">
                             <div className="text-end d-none d-md-block">
                                 <div className="fw-bold text-dark small">
@@ -208,7 +208,7 @@ const Navbar = () => {
                                 {user?.name?.[0] || "U"}
                             </div>
 
-                            {/* DIRECT LOGOUT BUTTON */}
+                          
                             <button
                                 onClick={handleLogout}
                                 className="btn btn-outline-danger btn-sm fw-bold px-3 py-2 rounded-pill"

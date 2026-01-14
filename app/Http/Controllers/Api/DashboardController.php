@@ -16,7 +16,7 @@ class DashboardController extends Controller
     {
         $user = $request->user();
 
-        // 1. HEADLINE STATS
+        
         $stats = [
             'total_docs' => KnowledgeItem::count(),
             'my_drafts' => KnowledgeItem::where('author_id', $user->id)->where('status', 0)->count(),
@@ -24,8 +24,7 @@ class DashboardController extends Controller
             'total_users' => User::count(),
         ];
 
-        // 2. LINE CHART DATA (Documents created in last 7 days)
-        // This logic groups creations by date
+    
         $lineData = KnowledgeItem::select(DB::raw('DATE(created_at) as date'), DB::raw('count(*) as count'))
             ->where('created_at', '>=', now()->subDays(7))
             ->groupBy('date')
@@ -36,8 +35,8 @@ class DashboardController extends Controller
             ->groupBy('status')
             ->get();
 
-        // 3. BAR CHART DATA (Documents per Category/Tag)
-        // We take the top 5 tags with the most items
+        // BAR CHART DATA (Documents per Category/Tag)
+        
         $barData = MetadataTag::select('category as label', DB::raw('count(*) as knowledge_items_count'))
             ->whereNotNull('category') // Filter out empty categories
             ->groupBy('category')
