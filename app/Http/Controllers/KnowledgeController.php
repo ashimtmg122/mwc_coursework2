@@ -17,12 +17,12 @@ class KnowledgeController extends Controller
 {
     public function store(Request $request)
     {
-        // 1. Validate Input
+        //  Validate Input
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'tags' => 'array', // Expecting ["Frontend", "React"] or objects
-            'tags.*.label' => 'required_with:tags|string', // If sending objects
+            'tags' => 'array', 
+            'tags.*.label' => 'required_with:tags|string', 
             'tags.*.category' => 'nullable|string',
         ]);
 
@@ -30,11 +30,11 @@ class KnowledgeController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        // 2. Start Transaction (Rollback if anything fails)
+        // Start Transaction (Rollback if anything fails)
         try {
             DB::beginTransaction();
 
-            // A. Create the Main Knowledge Item
+            //Create the Main Knowledge Item
             $knowledgeItem = KnowledgeItem::create([
                 'author_id' => $request->user()->id, // Automatically link to logged-in user
                 'title' => $request->title,
@@ -42,13 +42,13 @@ class KnowledgeController extends Controller
                 'status' => 0, // Default to 0 (Draft)
             ]);
 
-            // B. Create the Initial Version (v0.1)
+            // Create the Initial Version (v0.1)
             Version::create([
                 'knowledge_item_id' => $knowledgeItem->id,
                 'version_number' => '0.1', // Start as Draft version
             ]);
 
-            // C. Create Tags (if any provided)
+            // Create Tags (if any provided)
             if ($request->has('tags')) {
                 foreach ($request->tags as $tagData) {
                     // Handle if simple string or object was sent
@@ -63,15 +63,15 @@ class KnowledgeController extends Controller
                 }
             }
 
-            DB::commit(); // Save everything
+            DB::commit(); 
 
-            // 3. Return Response with Relationships loaded
+            // Return Response with Relationships loaded
             return response()->json([
                 'message' => 'Knowledge Item created successfully.',
                 'data' => $knowledgeItem->load(['versions', 'tags', 'author'])
             ], 201);
         } catch (\Exception $e) {
-            DB::rollBack(); // Undo everything if error occurs
+            DB::rollBack(); 
             return response()->json([
                 'message' => 'Failed to create knowledge item.',
                 'error' => $e->getMessage()
@@ -80,47 +80,34 @@ class KnowledgeController extends Controller
     }
     public function changeStatus(Request $request, $id)
     {
-        // Validate Input
+        
         $request->validate([
-            'status' => 'required|integer|in:0,1,2' // 0: Draft, 1: Pending, 2: Published
+            'status' => 'required|integer|in:0,1,2' 
         ]);
 
         $item = KnowledgeItem::findOrFail($id);
         $user = $request->user();
 
-        // helper to check if user is admin or manager
+     
         $isAdminOrManager = $user->role && in_array($user->role->name, ['Administrator', 'Manager']);
 
-        // --- AUTHORIZATION GATES ---
 
         if ($isAdminOrManager) {
-            // ✅ ADMIN/MANAGER: Allowed to do everything. 
-            // They can submit for review (1), publish (2), or draft (0) on ANY item.
         } else {
-            // ❌ NORMAL USER (AUTHOR): specific restrictions apply.
-
-            // 1. Ownership Check: You can't touch it if you didn't write it.
             if ($item->author_id !== $user->id) {
                 return response()->json(['message' => 'Unauthorized: You do not own this item.'], 403);
             }
-
-            // 2. Publish Restriction: You cannot set status to 2 (Published).
             if ($request->status == 2) {
                 return response()->json(['message' => 'Unauthorized: Only Admins can publish.'], 403);
             }
 
-            // ✅ RESULT: If they passed the two checks above, they are the Author 
-            // and they are trying to set Status 0 (Draft) or 1 (Review). ALLOWED.
         }
 
-        // --- UPDATE STATUS ---
         $item->update(['status' => $request->status]);
 
-        // --- NOTIFICATION LOGIC ---
         $recipients = [];
         $message = "";
 
-        // 1. Notify Admins if Submitted for Review (Status 1)
         if ($request->status == 1) {
             $recipients = User::where('id', '!=', $user->id) // Don't notify self
                 ->whereHas('role', function ($q) {
@@ -130,29 +117,28 @@ class KnowledgeController extends Controller
             $message = "Review Required: " . $user->name . " submitted \"" . $item->title . "\"";
         }
 
-        // 2. Notify Everyone if Published (Status 2)
         elseif ($request->status == 2) {
             $recipients = User::where('id', '!=', $user->id)->pluck('id');
             $message = "New Article Published: " . $item->title;
         }
 
-        // 3. Notify Author if Rejected/Drafted (Status 0)
+       
         elseif ($request->status == 0) {
-            // Only notify if someone ELSE (like an Admin) moved it to draft
+           
             if ($item->author_id != $user->id) {
                 $recipients = [$item->author_id];
                 $message = "Your submission \"" . $item->title . "\" was returned to draft.";
             }
         }
 
-        // --- BULK INSERT NOTIFICATIONS ---
+        
         if (!empty($recipients)) {
             $now = now();
             $inserts = [];
 
             foreach ($recipients as $userId) {
                 $inserts[] = [
-                    // 'id' => (string) \Illuminate\Support\Str::uuid(), // Uncomment if using UUID
+                  
                     'type' => 'ManualNotification',
                     'notifiable_type' => 'App\Models\User',
                     'notifiable_id' => $userId,
@@ -178,16 +164,13 @@ class KnowledgeController extends Controller
         ]);
     }
 
-    /**
-     * View All Items (With Search & Pagination)
-     * effectively replaces the 'SearchEngine' class logic
-     */
+   
     public function index(Request $request)
     {
         $query = KnowledgeItem::with(['author', 'tags'])
             ->latest();
 
-        // Add this block:
+       
         if ($request->has('status')) {
             $query->where('status', $request->status);
         }
@@ -201,48 +184,41 @@ class KnowledgeController extends Controller
         return response()->json($query->paginate(5));
     }
 
-    /**
-     * View Single Item (Detailed)
-     */
+    
     public function show($id)
     {
-        // 1. Find item or fail
-        // Load deep relationships: Comments include the User who wrote them
+        
         $knowledgeItem = KnowledgeItem::with([
             'author',
-            'versions',     // View history
+            'versions',    
             'tags',
-            'comments.user', // See who commented
+            'comments.user', 
             'suggestions'
         ])->find($id);
 
-        // 2. Handle 404 Not Found
         if (!$knowledgeItem) {
             return response()->json(['message' => 'Knowledge Item not found'], 404);
         }
 
-        // 3. Return Data
+        
         return response()->json($knowledgeItem);
     }
 
-    /**
-     * Update Knowledge Item (Creates a new Version automatically)
-     */
+    
     public function update(Request $request, $id)
     {
-        // 1. Find the Item
+        
         $knowledgeItem = KnowledgeItem::find($id);
 
         if (!$knowledgeItem) {
             return response()->json(['message' => 'Item not found'], 404);
         }
 
-        // 2. Authorization Check (Optional: Only Author or Admin can edit)
+       
         if ($request->user()->id !== $knowledgeItem->author_id && !$request->user()->isAdmin()) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
-        // 3. Validate Input
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -258,29 +234,27 @@ class KnowledgeController extends Controller
         try {
             DB::beginTransaction();
 
-            // A. Update Main Content
+           
             $knowledgeItem->update([
                 'title' => $request->title,
                 'description' => $request->description,
-                // Note: We do NOT update status here. Status changes require the "Validation Workflow".
+               
             ]);
 
-            // B. Generate New Version Number
-            // Get the latest version number (e.g., "0.1")
+           
             $latestVersion = $knowledgeItem->versions()->latest()->first();
             $currentVer = $latestVersion ? (float)$latestVersion->version_number : 0.0;
-            $newVer = number_format($currentVer + 0.1, 1); // Increment by 0.1 (e.g., 0.1 -> 0.2)
+            $newVer = number_format($currentVer + 0.1, 1); 
 
-            // C. Create the New Version Record
+           
             Version::create([
                 'knowledge_item_id' => $knowledgeItem->id,
                 'version_number' => (string)$newVer,
             ]);
 
-            // D. Sync Tags (Delete old, Insert new)
-            // This is safer than trying to diff them manually
+           
             if ($request->has('tags')) {
-                $knowledgeItem->tags()->delete(); // Remove existing
+                $knowledgeItem->tags()->delete(); 
 
                 foreach ($request->tags as $tagData) {
                     MetadataTag::create([
@@ -309,32 +283,26 @@ class KnowledgeController extends Controller
 
     public function exportPdf()
     {
-        // 1. Get the data you want in the report
-        // Example: Get all published articles with their authors
+       
         $items = KnowledgeItem::with('author')
-            ->where('status', 2) // Assuming 2 = Published
+            ->where('status', 2) 
             ->get();
 
-        // 2. Load the view and pass the data
-        // We will create 'resources/views/reports/knowledge_pdf.blade.php' next
+        
         $pdf = Pdf::loadView('knowledge', ['items' => $items]);
 
-        // 3. Download the file
-        // 'stream()' opens it in browser, 'download()' forces download.
-        // For API usage, 'download()' is usually better.
+        
         return $pdf->download('knowledge_report.pdf');
     }
 
-    // Add this method for Deleting
+   
     public function destroy($id)
     {
         $item = KnowledgeItem::findOrFail($id);
-        // Optional: Check if user is author
         $item->delete();
         return response()->json(['message' => 'Deleted successfully']);
     }
 
-    // Add this method for Comments
     public function storeComment(Request $request, $id)
     {
         $request->validate(['text' => 'required|string']);
@@ -345,7 +313,6 @@ class KnowledgeController extends Controller
             'text' => $request->text
         ]);
 
-        // Return with user loaded for the UI
         return response()->json($comment->load('user'), 201);
     }
 }
