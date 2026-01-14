@@ -17,7 +17,7 @@ class KnowledgeController extends Controller
 {
     public function store(Request $request)
     {
-        //  Validate Input
+       
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -30,28 +30,28 @@ class KnowledgeController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        // Start Transaction (Rollback if anything fails)
+       
         try {
             DB::beginTransaction();
 
-            //Create the Main Knowledge Item
+           
             $knowledgeItem = KnowledgeItem::create([
-                'author_id' => $request->user()->id, // Automatically link to logged-in user
+                'author_id' => $request->user()->id, 
                 'title' => $request->title,
                 'description' => $request->description,
-                'status' => 0, // Default to 0 (Draft)
+                'status' => 0, 
             ]);
 
-            // Create the Initial Version (v0.1)
+            
             Version::create([
                 'knowledge_item_id' => $knowledgeItem->id,
                 'version_number' => '0.1', // Start as Draft version
             ]);
 
-            // Create Tags (if any provided)
+           
             if ($request->has('tags')) {
                 foreach ($request->tags as $tagData) {
-                    // Handle if simple string or object was sent
+                   
                     $label = is_array($tagData) ? $tagData['label'] : $tagData;
                     $category = is_array($tagData) ? ($tagData['category'] ?? 'General') : 'General';
 
@@ -65,7 +65,7 @@ class KnowledgeController extends Controller
 
             DB::commit(); 
 
-            // Return Response with Relationships loaded
+            
             return response()->json([
                 'message' => 'Knowledge Item created successfully.',
                 'data' => $knowledgeItem->load(['versions', 'tags', 'author'])
