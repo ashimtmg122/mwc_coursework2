@@ -29,7 +29,6 @@ const DashboardLayout = () => {
                     <div className="sidebar-heading text-white fw-bold py-4 px-3 border-bottom border-white border-opacity-25">
                         <span className="d-flex align-items-center gap-2">
                             <i className="bi bi-tree-fill"></i>{" "}
-                            {/* Optional Icon */}
                             KNMS System
                         </span>
                     </div>
